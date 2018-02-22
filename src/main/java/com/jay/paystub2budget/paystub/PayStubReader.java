@@ -49,54 +49,40 @@ public class PayStubReader {
 			
 			for(String line : splitContents) {
 				if (line.contains(TOTAL_TAXES_WITHHELD)) {
-					String fieldName = line.substring(0, TOTAL_TAXES_WITHHELD.length()).trim();
-					
-					String subString = line.substring(TOTAL_TAXES_WITHHELD.length()).trim();
-					subString = subString.replaceAll(",", "");
-					String[] splitStr = subString.split(" ");
+					String[] splitStr = splitField(line, TOTAL_TAXES_WITHHELD);
 					
 					double current = Double.valueOf(splitStr[0]);
 					double yearToDate = Double.valueOf(splitStr[1]);
 					
+					String fieldName = line.substring(0, TOTAL_TAXES_WITHHELD.length()).trim();
 					extractedFields.put(fieldName, new StubField(fieldName, current, yearToDate));
 				} else if (line.contains(NET_PAY)) {
-					String fieldName = line.substring(0, NET_PAY.length()).trim();
-					
-					String subString = line.substring(NET_PAY.length()).trim();
-					subString = subString.replaceAll(",", "");
-					String[] splitStr = subString.split(" ");
+					String[] splitStr = splitField(line, NET_PAY);
 					
 					double current = Double.valueOf(splitStr[0]);
 					double yearToDate = Double.valueOf(splitStr[1]);
 					
+					String fieldName = line.substring(0, NET_PAY.length()).trim();
 					extractedFields.put(fieldName, new StubField(fieldName, current, yearToDate));
-				} else if (line.contains(CHECK_DATE)) {
+				}	else if (line.contains(TOTAL_PRETAX_DEDUCTIONS)) {
+					String[] splitStr = splitField(line, TOTAL_PRETAX_DEDUCTIONS);
+					
+					double current = Double.valueOf(splitStr[0]);
+					double yearToDate = Double.valueOf(splitStr[1]);
+					
+					String fieldName = line.substring(0, TOTAL_PRETAX_DEDUCTIONS.length()).trim();
+					extractedFields.put(fieldName, new StubField(fieldName, current, yearToDate));
+				}  else if (line.contains(CHECK_DATE)) {
 					String subString = line.substring(CHECK_DATE.length()).trim();
-					String dateString = subString.split(" ")[0];	// This splits the string into an array and only grabs the first result of the array
+					String dateString = subString.split(" ")[0];
 					DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 					try {
 						date = format.parse(dateString);
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					System.out.println(date.toString() + "\n");
-				}	else if (line.contains(TOTAL_PRETAX_DEDUCTIONS)) {
-					String fieldName = line.substring(0, TOTAL_PRETAX_DEDUCTIONS.length()).trim();
-					
-					String subString = line.substring(TOTAL_PRETAX_DEDUCTIONS.length()).trim();
-					subString = subString.replaceAll(",",  "");					
-					String[] splitStr = subString.split(" ");
-					
-					double current = Double.valueOf(splitStr[0]);
-					double yearToDate = Double.valueOf(splitStr[1]);
-					
-					extractedFields.put(fieldName, new StubField(fieldName, current, yearToDate));
 				}
 			}
-			/*for(StubField stub : extractedFields) {
-				System.out.println(stub.toString());
-			}*/
 			extractedFields.forEach((key,value) -> System.out.println(value.toString()));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -113,5 +99,13 @@ public class PayStubReader {
 		Months month = Months.valueOf(monthString);
 		stub.setMonth(month);
 		return stub;
+	}
+	
+	private String[] splitField(String line, String field) {		
+		String subString = line.substring(field.length()).trim();
+		subString = subString.replaceAll(",", "");
+		String[] splitStr = subString.split(" ");
+		
+		return splitStr;
 	}
 }

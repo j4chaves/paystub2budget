@@ -1,5 +1,10 @@
 package com.jay.paystub2budget.util;
 
+/**
+ * Enum for months and their corresponding 
+ * column number in the Excel spreadsheet.
+ *
+ */
 public enum Months {
 	JAN("JAN", 1),
 	FEB("FEB", 2),

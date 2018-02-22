@@ -11,7 +11,6 @@ public class PayStub {
 	private Map<String, StubField> extractedFields;
 	private Months month;
 	private Date date;
-	// TODO Separate data from PaystubReader into this class
 	
 	public PayStub () {
 		this.extractedFields = new HashMap<String, StubField>();
