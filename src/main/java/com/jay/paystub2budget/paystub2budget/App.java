@@ -3,11 +3,9 @@ package com.jay.paystub2budget.paystub2budget;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collection;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
-import org.apache.poi.ss.formula.WorkbookEvaluator;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -38,6 +36,8 @@ public class App {
 	
     public static void main( String[] args ) {
     	
+    	// TODO Thid whole file needs to be rewritten and all the logic taken out of main
+    	
     	// Get input file from command line argument
     	File paystubFile = new File(PAYSTUB_PATH);
     	
@@ -57,7 +57,7 @@ public class App {
 	    	XSSFRow wages = sheet.getRow(5);
 	    	for(Row row : sheet) {
 	    		Cell cell = row.getCell(0);
-	    		if(cell != null && cell.getCellTypeEnum().equals(CellType.STRING)) {
+	    		if(cell != null && cell.getCellType().equals(CellType.STRING)) {
 	    			if(cell.getStringCellValue().equals(WAGES)) {
 	    				Cell cellToEdit = row.getCell(paymentMonth.getExcelColumnNum());
 	    				Double currentAmount = cellToEdit.getNumericCellValue();
@@ -81,9 +81,7 @@ public class App {
 	    	XSSFFormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
 	    	formulaEvaluator.evaluateAll();
 	    	
-	    	FileOutputStream outStream = new FileOutputStream("C:\\Users\\Jacob\\Documents\\newBudget.xlsx");
-			workbook.write(outStream);
-			outStream.close();
+	    	//outputNewWorkbookFile(workbook);
 			workbook.close();
 
 			System.out.println("Paystub 2 Budget Program finished successfully!");
@@ -92,8 +90,6 @@ public class App {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (OpenXML4JException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -101,5 +97,17 @@ public class App {
 		}
     	
     	// Write to budget workbook
+    }
+    
+    private void outputNewWorkbookFile(XSSFWorkbook workbook) {
+    	
+		try {
+			FileOutputStream outStream = new FileOutputStream("C:\\Users\\Jacob\\Documents\\newBudget.xlsx");
+			workbook.write(outStream);
+			outStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
