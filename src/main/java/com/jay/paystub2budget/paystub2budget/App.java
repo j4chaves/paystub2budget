@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -55,29 +54,38 @@ public class App {
 	    	
 
 			Months paymentMonth = stub.getMonth();
-	    	XSSFRow wages = sheet.getRow(5);
+	    	XSSFRow wages = sheet.getRow(5);	
 	    	for(Row row : sheet) {
 	    		Cell cell = row.getCell(0);
 	    		if(cell != null && cell.getCellType().equals(CellType.STRING)) {
+	    			Cell cellToEdit = row.getCell(paymentMonth.getExcelColumnNum());
+    				double currentAmount = cellToEdit.getNumericCellValue();
+    				double amountToAdd = 0;
+    				boolean equalsYearToDate = false;
+	    			
 	    			if(cell.getStringCellValue().equals(WAGES)) {
-	    				Cell cellToEdit = row.getCell(paymentMonth.getExcelColumnNum());
-	    				Double currentAmount = cellToEdit.getNumericCellValue();
 	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.NET_PAY); 
-	    				Double amountToAdd = stubField.getCurrent();
+	    				amountToAdd = stubField.getCurrent();
 	    				if (stubField.getYearToDate() == stubField.getCurrent() + amountToAdd) {
-	    					cellToEdit.setCellValue(currentAmount + amountToAdd);
+	    					equalsYearToDate = true;
 	    				}
 	    			} else if (cell.getStringCellValue().equals(INCOME_TAX)) {
-	    				Cell cellToEdit = row.getCell(paymentMonth.getExcelColumnNum());
-	    				Double currentAmount = cellToEdit.getNumericCellValue();
-	    				Double amountToAdd = stub.getExtractedFields().get(PayStubReader.TOTAL_TAXES_WITHHELD).getCurrent();
-	    				cellToEdit.setCellValue(currentAmount + amountToAdd);
+	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.TOTAL_TAXES_WITHHELD);
+	    				amountToAdd = stubField.getCurrent();
+	    				if (stubField.getYearToDate() == stubField.getCurrent() + amountToAdd) {
+	    					equalsYearToDate = true;
+	    				}
 	    			} else if (cell.getStringCellValue().equals(RETIREMENT)) {
-	    				Cell cellToEdit = row.getCell(paymentMonth.getExcelColumnNum());
-	    				Double currentAmount = cellToEdit.getNumericCellValue();
-	    				Double amountToAdd = stub.getExtractedFields().get(PayStubReader.TOTAL_PRETAX_DEDUCTIONS).getCurrent();
-	    				cellToEdit.setCellValue(currentAmount + amountToAdd);
+	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.TOTAL_PRETAX_DEDUCTIONS);
+	    				amountToAdd = stubField.getCurrent();
+	    				if (stubField.getYearToDate() == stubField.getCurrent() + amountToAdd) {
+	    					equalsYearToDate = true;
+	    				}
 	    			}
+	    			
+	    			if (equalsYearToDate) {
+    					cellToEdit.setCellValue(currentAmount + amountToAdd);
+    				}
 	    		}
 	    	}
 	    	

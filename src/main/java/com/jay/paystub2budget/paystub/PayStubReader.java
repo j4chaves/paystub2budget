@@ -29,7 +29,7 @@ public class PayStubReader {
 	public static final String CHECK_DATE = "Check Date:";
 	
 	private Map<String, StubField> extractedFields = new HashMap<String, StubField>();
-	private Date paystubDate;		// TODO should be changed to paystubDate
+	private Date paystubDate;
 	private File file;
 	
 	public PayStubReader (File file) {
