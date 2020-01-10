@@ -59,24 +59,27 @@ public class App {
 	    		Cell cell = row.getCell(0);
 	    		if(cell != null && cell.getCellType().equals(CellType.STRING)) {
 	    			Cell cellToEdit = row.getCell(paymentMonth.getExcelColumnNum());
-    				double currentAmount = cellToEdit.getNumericCellValue();
+    				double currentAmount = 0;
     				double amountToAdd = 0;
     				boolean equalsYearToDate = false;
 	    			
 	    			if(cell.getStringCellValue().equals(WAGES)) {
-	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.NET_PAY); 
+	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.NET_PAY);
+	    				currentAmount = cellToEdit.getNumericCellValue();
 	    				amountToAdd = stubField.getCurrent();
 	    				if (stubField.getYearToDate() == stubField.getCurrent() + amountToAdd) {
 	    					equalsYearToDate = true;
 	    				}
 	    			} else if (cell.getStringCellValue().equals(INCOME_TAX)) {
 	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.TOTAL_TAXES_WITHHELD);
+	    				currentAmount = cellToEdit.getNumericCellValue();
 	    				amountToAdd = stubField.getCurrent();
 	    				if (stubField.getYearToDate() == stubField.getCurrent() + amountToAdd) {
 	    					equalsYearToDate = true;
 	    				}
 	    			} else if (cell.getStringCellValue().equals(RETIREMENT)) {
 	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.TOTAL_PRETAX_DEDUCTIONS);
+	    				currentAmount = cellToEdit.getNumericCellValue();
 	    				amountToAdd = stubField.getCurrent();
 	    				if (stubField.getYearToDate() == stubField.getCurrent() + amountToAdd) {
 	    					equalsYearToDate = true;
