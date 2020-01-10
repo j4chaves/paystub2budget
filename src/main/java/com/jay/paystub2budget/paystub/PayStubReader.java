@@ -29,7 +29,7 @@ public class PayStubReader {
 	public static final String CHECK_DATE = "Check Date:";
 	
 	private Map<String, StubField> extractedFields = new HashMap<String, StubField>();
-	private Date date;		// TODO should be changed to paystubDate
+	private Date paystubDate;		// TODO should be changed to paystubDate
 	private File file;
 	
 	public PayStubReader (File file) {
@@ -40,11 +40,11 @@ public class PayStubReader {
 		parseData();
 		
 		PayStub stub = new PayStub();
-		stub.setDate(date);
+		stub.setDate(paystubDate);
 		stub.setExtractedFields(extractedFields);
 
 		// Figure out the month
-		String monthString = date.toString().substring(4, 7).toUpperCase().trim();
+		String monthString = paystubDate.toString().substring(4, 7).toUpperCase().trim();
 		Months month = Months.valueOf(monthString);
 		stub.setMonth(month);
 		return stub;
@@ -87,7 +87,7 @@ public class PayStubReader {
 				String dateString = subString.split(" ")[0];
 				DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 				try {
-					date = format.parse(dateString);
+					paystubDate = format.parse(dateString);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
