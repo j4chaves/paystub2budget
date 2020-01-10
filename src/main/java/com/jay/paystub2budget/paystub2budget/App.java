@@ -16,12 +16,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.jay.paystub2budget.paystub.PayStub;
 import com.jay.paystub2budget.paystub.PayStubReader;
+import com.jay.paystub2budget.paystub.StubField;
 import com.jay.paystub2budget.util.Months;
 
 
 public class App {
 	
-	public static final String PAYSTUB_PATH = "D:\\Paystubs\\PayStub Jan 2nd stub 2018.pdf"; 
+	public static final String PAYSTUB_PATH = "D:\\GDIT\\Paystubs\\2018\\test.pdf"; 
 	public static final String WORKBOOK_PATH = "C:\\Users\\Jacob\\Documents\\testBudget.xlsx"; // TODO
 	public static final String SHEET_TITLE = "PERSONAL BUDGET";
 	
@@ -61,8 +62,11 @@ public class App {
 	    			if(cell.getStringCellValue().equals(WAGES)) {
 	    				Cell cellToEdit = row.getCell(paymentMonth.getExcelColumnNum());
 	    				Double currentAmount = cellToEdit.getNumericCellValue();
-	    				Double amountToAdd = stub.getExtractedFields().get(PayStubReader.NET_PAY).getCurrent();
-	    				cellToEdit.setCellValue(currentAmount + amountToAdd);
+	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.NET_PAY); 
+	    				Double amountToAdd = stubField.getCurrent();
+	    				if (stubField.getYearToDate() == stubField.getCurrent() + amountToAdd) {
+	    					cellToEdit.setCellValue(currentAmount + amountToAdd);
+	    				}
 	    			} else if (cell.getStringCellValue().equals(INCOME_TAX)) {
 	    				Cell cellToEdit = row.getCell(paymentMonth.getExcelColumnNum());
 	    				Double currentAmount = cellToEdit.getNumericCellValue();
@@ -81,7 +85,7 @@ public class App {
 	    	XSSFFormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
 	    	formulaEvaluator.evaluateAll();
 	    	
-	    	//outputNewWorkbookFile(workbook);
+	    	outputNewWorkbookFile(workbook);	//For some reason, the data will only save in the testBudget when the newBudget xlsx file is created
 			workbook.close();
 
 			System.out.println("Paystub 2 Budget Program finished successfully!");
@@ -99,7 +103,7 @@ public class App {
     	// Write to budget workbook
     }
     
-    private void outputNewWorkbookFile(XSSFWorkbook workbook) {
+    private static void outputNewWorkbookFile(XSSFWorkbook workbook) {
     	
 		try {
 			FileOutputStream outStream = new FileOutputStream("C:\\Users\\Jacob\\Documents\\newBudget.xlsx");
