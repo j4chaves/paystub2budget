@@ -17,26 +17,22 @@ import com.jay.paystub2budget.paystub.PayStub;
 import com.jay.paystub2budget.paystub.PayStubReader;
 import com.jay.paystub2budget.paystub.StubField;
 import com.jay.paystub2budget.util.Months;
+import com.jay.paystub2budget.util.PaystubFieldNames;
 
 
 public class App {
 	
-	public static final String PAYSTUB_PATH = "D:\\GDIT\\Paystubs\\2018\\test.pdf"; 
-	public static final String WORKBOOK_PATH = "C:\\Users\\Jacob\\Documents\\testBudget.xlsx"; // TODO
+	public static final String PAYSTUB_PATH = "D:\\Bills and Important Documents\\TekSystems\\Paystubs\\2020\\test.pdf"; 
+	public static final String WORKBOOK_PATH = "C:\\Users\\Jacob\\Documents\\testBudget.xlsx"; // TODO 
 	public static final String SHEET_TITLE = "PERSONAL BUDGET";
 	
 	public static final int WAGES_ROW_INDEX = 5;
 	public static final int RETIREMENT_ROW_INDEX = 78;
 	public static final int INCOME_TAX_ROW_INDEX = 80;
 	
-	//Row names
-	public static final String WAGES = "Wages";
-	public static final String INCOME_TAX = "Income tax (additional)";
-	public static final String RETIREMENT = "Retirement (401k, Roth IRA)";
-	
-    public static void main( String[] args ) {
+    public static void main(String[] args ) {
     	
-    	// TODO Thid whole file needs to be rewritten and all the logic taken out of main
+    	// TODO This whole file needs to be rewritten and all the logic taken out of main
     	
     	// Get input file from command line argument
     	File paystubFile = new File(PAYSTUB_PATH);
@@ -63,22 +59,22 @@ public class App {
     				double amountToAdd = 0;
     				boolean equalsYearToDate = false;
 	    			
-	    			if(cell.getStringCellValue().equals(WAGES)) {
-	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.NET_PAY);
+	    			if(cell.getStringCellValue().equals(PaystubFieldNames.GD_WAGES)) {
+	    				StubField stubField = stub.getExtractedFields().get(PaystubFieldNames.GD_NET_PAY);
 	    				currentAmount = cellToEdit.getNumericCellValue();
 	    				amountToAdd = stubField.getCurrent();
 	    				if (stubField.getYearToDate() == stubField.getCurrent() + amountToAdd) {
 	    					equalsYearToDate = true;
 	    				}
-	    			} else if (cell.getStringCellValue().equals(INCOME_TAX)) {
-	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.TOTAL_TAXES_WITHHELD);
+	    			} else if (cell.getStringCellValue().equals(PaystubFieldNames.GD_INCOME_TAX)) {
+	    				StubField stubField = stub.getExtractedFields().get(PaystubFieldNames.GD_TOTAL_TAXES_WITHHELD);
 	    				currentAmount = cellToEdit.getNumericCellValue();
 	    				amountToAdd = stubField.getCurrent();
 	    				if (stubField.getYearToDate() == stubField.getCurrent() + amountToAdd) {
 	    					equalsYearToDate = true;
 	    				}
-	    			} else if (cell.getStringCellValue().equals(RETIREMENT)) {
-	    				StubField stubField = stub.getExtractedFields().get(PayStubReader.TOTAL_PRETAX_DEDUCTIONS);
+	    			} else if (cell.getStringCellValue().equals(PaystubFieldNames.GD_RETIREMENT)) {
+	    				StubField stubField = stub.getExtractedFields().get(PaystubFieldNames.GD_TOTAL_PRETAX_DEDUCTIONS);
 	    				currentAmount = cellToEdit.getNumericCellValue();
 	    				amountToAdd = stubField.getCurrent();
 	    				if (stubField.getYearToDate() == stubField.getCurrent() + amountToAdd) {

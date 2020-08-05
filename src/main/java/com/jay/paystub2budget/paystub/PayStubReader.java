@@ -18,15 +18,13 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 import com.jay.paystub2budget.util.Months;
+import com.jay.paystub2budget.util.PaystubFieldNames;
 
 
 public class PayStubReader {
 	
 	
-	public static final String NET_PAY = "Net Pay";
-	public static final String TOTAL_PRETAX_DEDUCTIONS = "Total Pre-tax Deductions";
-	public static final String TOTAL_TAXES_WITHHELD = "Total Taxes Withheld";
-	public static final String CHECK_DATE = "Check Date:";
+	
 	
 	private Map<String, StubField> extractedFields = new HashMap<String, StubField>();
 	private Date paystubDate;
@@ -58,32 +56,32 @@ public class PayStubReader {
 		ArrayList<String> splitContents = new ArrayList<String>(contentsList);
 
 		for(String line : splitContents) {
-			if (line.contains(TOTAL_TAXES_WITHHELD)) {
-				String[] splitStr = splitField(line, TOTAL_TAXES_WITHHELD);
+			if (line.contains(PaystubFieldNames.GD_TOTAL_TAXES_WITHHELD)) {
+				String[] splitStr = splitField(line, PaystubFieldNames.GD_TOTAL_TAXES_WITHHELD);
 
 				double current = Double.valueOf(splitStr[0]);
 				double yearToDate = Double.valueOf(splitStr[1]);
 
-				String fieldName = line.substring(0, TOTAL_TAXES_WITHHELD.length()).trim();
+				String fieldName = line.substring(0, PaystubFieldNames.GD_TOTAL_TAXES_WITHHELD.length()).trim();
 				extractedFields.put(fieldName, new StubField(fieldName, current, yearToDate));
-			} else if (line.contains(NET_PAY)) {
-				String[] splitStr = splitField(line, NET_PAY);
+			} else if (line.contains(PaystubFieldNames.GD_NET_PAY)) {
+				String[] splitStr = splitField(line, PaystubFieldNames.GD_NET_PAY);
 
 				double current = Double.valueOf(splitStr[0]);
 				double yearToDate = Double.valueOf(splitStr[1]);
 
-				String fieldName = line.substring(0, NET_PAY.length()).trim();
+				String fieldName = line.substring(0, PaystubFieldNames.GD_NET_PAY.length()).trim();
 				extractedFields.put(fieldName, new StubField(fieldName, current, yearToDate));
-			}	else if (line.contains(TOTAL_PRETAX_DEDUCTIONS)) {
-				String[] splitStr = splitField(line, TOTAL_PRETAX_DEDUCTIONS);
+			}	else if (line.contains(PaystubFieldNames.GD_TOTAL_PRETAX_DEDUCTIONS)) {
+				String[] splitStr = splitField(line, PaystubFieldNames.GD_TOTAL_PRETAX_DEDUCTIONS);
 
 				double current = Double.valueOf(splitStr[0]);
 				double yearToDate = Double.valueOf(splitStr[1]);
 
-				String fieldName = line.substring(0, TOTAL_PRETAX_DEDUCTIONS.length()).trim();
+				String fieldName = line.substring(0, PaystubFieldNames.GD_TOTAL_PRETAX_DEDUCTIONS.length()).trim();
 				extractedFields.put(fieldName, new StubField(fieldName, current, yearToDate));
-			}  else if (line.contains(CHECK_DATE)) {
-				String subString = line.substring(CHECK_DATE.length()).trim();
+			}  else if (line.contains(PaystubFieldNames.GD_CHECK_DATE)) {
+				String subString = line.substring(PaystubFieldNames.GD_CHECK_DATE.length()).trim();
 				String dateString = subString.split(" ")[0];
 				DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 				try {
