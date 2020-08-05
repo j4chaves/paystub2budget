@@ -6,13 +6,13 @@ import java.util.Map;
 
 import com.jay.paystub2budget.util.Months;
 
-public class PayStub {
+public class Paystub {
 
 	private Map<String, StubField> extractedFields;
 	private Months month;
 	private Date date;
 	
-	public PayStub () {
+	public Paystub () {
 		this.extractedFields = new HashMap<String, StubField>();
 		this.date = new Date();
 	}

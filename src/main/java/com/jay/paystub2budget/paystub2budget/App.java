@@ -13,8 +13,8 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.jay.paystub2budget.paystub.PayStub;
-import com.jay.paystub2budget.paystub.PayStubReader;
+import com.jay.paystub2budget.paystub.GDPaystubReader;
+import com.jay.paystub2budget.paystub.Paystub;
 import com.jay.paystub2budget.paystub.StubField;
 import com.jay.paystub2budget.util.Months;
 import com.jay.paystub2budget.util.PaystubFieldNames;
@@ -38,8 +38,8 @@ public class App {
     	File paystubFile = new File(PAYSTUB_PATH);
     	
     	// Read pay stub
-    	PayStubReader reader = new PayStubReader(paystubFile);
-    	PayStub stub = reader.createPayStubObject();
+    	GDPaystubReader reader = new GDPaystubReader(paystubFile);
+    	Paystub stub = reader.createPaystubObject();
 		
     	// Open Excel budget workbook
     	File excelFile = new File(WORKBOOK_PATH);

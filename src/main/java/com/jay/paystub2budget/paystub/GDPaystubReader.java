@@ -21,23 +21,21 @@ import com.jay.paystub2budget.util.Months;
 import com.jay.paystub2budget.util.PaystubFieldNames;
 
 
-public class PayStubReader {
-	
-	
-	
+public class GDPaystubReader implements PaystubReaderInterface{	
 	
 	private Map<String, StubField> extractedFields = new HashMap<String, StubField>();
 	private Date paystubDate;
 	private File file;
 	
-	public PayStubReader (File file) {
+	public GDPaystubReader (File file) {
 		this.file = file;
 	}
 	
-	public PayStub createPayStubObject() {
+	@Override
+	public Paystub createPaystubObject() {
 		parseData();
 		
-		PayStub stub = new PayStub();
+		Paystub stub = new Paystub();
 		stub.setDate(paystubDate);
 		stub.setExtractedFields(extractedFields);
 
@@ -50,7 +48,7 @@ public class PayStubReader {
 	
 	private void parseData() {
 
-		String contents = readFile();
+		String contents = readPaystubFile();
 		
 		List<String> contentsList = Arrays.asList(contents.split("\n"));
 		ArrayList<String> splitContents = new ArrayList<String>(contentsList);
@@ -94,7 +92,8 @@ public class PayStubReader {
 		extractedFields.forEach((key,value) -> System.out.println(value.toString()));
 	}
 
-	public String readFile() {
+	@Override
+	public String readPaystubFile() {
 		
 		String contents = "";
 
