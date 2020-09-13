@@ -4,6 +4,7 @@ import java.io.File;
 
 import com.jay.paystub2budget.paystub.Paystub;
 import com.jay.paystub2budget.paystub.TSPaystubReader;
+import com.jay.paystub2budget.util.ConsoleOutputProcessor;
 
 
 public class App {
@@ -34,6 +35,8 @@ public class App {
     	//workbookProcessor.updateWorkbook();
     	
     	// Output paystub results to console
+    	ConsoleOutputProcessor processor = new ConsoleOutputProcessor(stub);
+    	processor.printOutput();
     }
     
     
