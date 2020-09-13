@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import com.jay.paystub2budget.util.PaystubFieldNames;
 
@@ -143,5 +144,26 @@ public class TSPaystubReader implements PaystubReaderInterface {
 		paystub.setExtractedFields(extractedFields);
 		
 		return paystub;
+	}
+	
+	/**
+	 * Parses the desired data from the given list
+	 * @param splitContents 		List to pull data from
+	 * @param splitContentsIndex	Index of the data being pulled based on its position in the paystub
+	 * @param currentIndex			Index of where the "current" amount is in the paystub
+	 * @param ytdIndex				Index of where the "year to date" amount is in the paystub
+	 * @param fieldName				Name of the field being parsed
+	 */
+	private StubField parseField(List<String> splitContents, int splitContentsIndex, int currentIndex, int ytdIndex, String fieldName) {
+		
+		String paystubRow = splitContents.get(splitContentsIndex);
+		String[] rowArray = paystubRow.split(" ");
+		String strippedCurrent = rowArray[currentIndex].replaceAll(",", "");
+		String strippedYtd = rowArray[ytdIndex].replaceAll(",", "");
+		Double current = Double.parseDouble(strippedCurrent);
+		Double ytd = Double.parseDouble(strippedYtd);
+		
+		StubField stubField = new StubField(fieldName, current, ytd);
+		return stubField;
 	}
 }
