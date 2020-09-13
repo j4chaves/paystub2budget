@@ -1,5 +1,6 @@
 package com.jay.paystub2budget.paystub;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +11,10 @@ public class Paystub {
 
 	private Map<String, StubField> extractedFields;
 	private Months month;
-	private Date date;	// TODO Change this to Java.time date 
+	private LocalDate date;	// TODO Change this to Java.time date 
 	
 	public Paystub () {
 		this.extractedFields = new HashMap<String, StubField>();
-		this.date = new Date();
 	}
 
 	public Map<String, StubField> getExtractedFields() {
@@ -25,11 +25,11 @@ public class Paystub {
 		this.extractedFields = extractedFields;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 

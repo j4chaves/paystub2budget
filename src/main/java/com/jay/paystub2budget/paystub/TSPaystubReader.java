@@ -1,16 +1,16 @@
 package com.jay.paystub2budget.paystub;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Optional;
 
 import com.jay.paystub2budget.util.PaystubFieldNames;
 
 public class TSPaystubReader implements PaystubReaderInterface {
 
-	private String paystubDate;
 	private File file;
 	
 	public TSPaystubReader(File file) {
@@ -27,8 +27,10 @@ public class TSPaystubReader implements PaystubReaderInterface {
 		var extractedFields = new HashMap<String, StubField>();
 		
 		// Date
-		String date = splitContents.get(26).substring(9);
-		this.paystubDate = date.trim();
+		String date = splitContents.get(26).substring(9);		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		LocalDate localDate = LocalDate.parse(date.trim(), formatter);
+		paystub.setDate(localDate);
 		
 		// Regular Pay
 		String regularPayRow = splitContents.get(32);
