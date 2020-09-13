@@ -10,7 +10,7 @@ public class Paystub {
 
 	private Map<String, StubField> extractedFields;
 	private Months month;
-	private Date date;
+	private Date date;	// TODO Change this to Java.time date 
 	
 	public Paystub () {
 		this.extractedFields = new HashMap<String, StubField>();

@@ -16,13 +16,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.jay.paystub2budget.paystub.GDPaystubReader;
 import com.jay.paystub2budget.paystub.Paystub;
 import com.jay.paystub2budget.paystub.StubField;
+import com.jay.paystub2budget.paystub.TSPaystubReader;
 import com.jay.paystub2budget.util.Months;
 import com.jay.paystub2budget.util.PaystubFieldNames;
 
 
 public class App {
 	
-	public static final String PAYSTUB_PATH = "D:\\Bills and Important Documents\\TekSystems\\Paystubs\\2020\\test.pdf"; 
+	public static final String PAYSTUB_PATH = "C:\\Users\\Jacob\\Documents\\testPaystub.pdf"; 
 	public static final String WORKBOOK_PATH = "C:\\Users\\Jacob\\Documents\\testBudget.xlsx"; // TODO 
 	public static final String SHEET_TITLE = "PERSONAL BUDGET";
 	
@@ -30,7 +31,7 @@ public class App {
 	public static final int RETIREMENT_ROW_INDEX = 78;
 	public static final int INCOME_TAX_ROW_INDEX = 80;
 	
-    public static void main(String[] args ) {
+    public static void main(String[] args) {
     	
     	// TODO This whole file needs to be rewritten and all the logic taken out of main
     	
@@ -38,7 +39,8 @@ public class App {
     	File paystubFile = new File(PAYSTUB_PATH);
     	
     	// Read pay stub
-    	GDPaystubReader reader = new GDPaystubReader(paystubFile);
+    	//GDPaystubReader reader = new GDPaystubReader(paystubFile);
+    	TSPaystubReader reader = new TSPaystubReader(paystubFile);
     	Paystub stub = reader.createPaystubObject();
 		
     	// Open Excel budget workbook

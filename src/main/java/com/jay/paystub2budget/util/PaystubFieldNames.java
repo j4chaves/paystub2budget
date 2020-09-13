@@ -22,7 +22,9 @@ public class PaystubFieldNames {
 	// TS Paystub field names
 	public static final String TS_REGULAR_PAY = "Ragular Pay";
 	public static final String TS_HOLIDAY_PAY = "Holiday Pay";
+	public static final String TS_DATA_SECURITY_TRAINING_PAY = "Data Security Training Pay";
 	public static final String TS_TOTAL_EARNINGS = "Total Earnings:";
+	public static final String TS_TOTAL_TAX_DEDUCTIONS = "Total Tax Deductions";
 	public static final String TS_TOTAL_PRETAX_DEDUCTIONS = "Total Pre-Tax Deductions";
 	public static final String TS_MEDICAL_PRE_TAX = "Medical Pre Tax";
 	public static final String TS_DENTAL_PRE_TAX = "Dental Pre Tax";

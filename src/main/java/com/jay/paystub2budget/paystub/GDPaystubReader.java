@@ -48,7 +48,7 @@ public class GDPaystubReader implements PaystubReaderInterface{
 	
 	private void parseData() {
 
-		String contents = readPaystubFile();
+		String contents = readPaystubFile(this.file);
 		
 		List<String> contentsList = Arrays.asList(contents.split("\n"));
 		ArrayList<String> splitContents = new ArrayList<String>(contentsList);
@@ -90,33 +90,6 @@ public class GDPaystubReader implements PaystubReaderInterface{
 			}
 		}
 		extractedFields.forEach((key,value) -> System.out.println(value.toString()));
-	}
-
-	@Override
-	public String readPaystubFile() {
-		
-		String contents = "";
-
-		if (this.file != null || !this.file.exists()) {
-			//contents = "";	// TODO Handle better
-		}
-		
-		PDDocument doc;
-		
-		try {
-			PDFTextStripper stripper = new PDFTextStripper();
-			stripper.setLineSeparator("\n");
-			stripper.setStartPage(1);
-			stripper.setEndPage(1);
-			doc = PDDocument.load(file);
-			contents = stripper.getText(doc);
-			doc.close();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return contents;
 	}
 	
 	private String[] splitField(String line, String field) {		
